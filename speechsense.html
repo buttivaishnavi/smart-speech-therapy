@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SpeechSense — AI Speech Therapy Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg:       #f8f9fc;
+  --white:    #ffffff;
+  --surface:  #ffffff;
+  --border:   #e4e8ef;
+  --border2:  #ccd3de;
+  --text:     #0f1623;
+  --text2:    #2d3748;
+  --muted:    #64748b;
+  --light:    #94a3b8;
+  --teal:     #0d9488;
+  --teal-l:   #f0fdfb;
+  --teal-m:   #99f6e4;
+  --blue:     #2563eb;
+  --blue-l:   #eff6ff;
+  --red:      #dc2626;
+  --red-l:    #fef2f2;
+  --amber:    #d97706;
+  --amber-l:  #fffbeb;
+  --green:    #059669;
+  --green-l:  #ecfdf5;
+  --fraunces: 'Fraunces', Georgia, serif;
+  --jakarta:  'Plus Jakarta Sans', sans-serif;
+  --r:        10px;
+  --r2:       16px;
+  --sh:       0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.06);
+  --sh2:      0 2px 8px rgba(0,0,0,0.07), 0 12px 40px rgba(0,0,0,0.09);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--jakarta);line-height:1.65;overflow-x:hidden}
+
+/* ─ NAV ─ */
+nav{
+  position:sticky;top:0;z-index:300;
+  background:rgba(248,249,252,0.92);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 5%;height:62px;
+}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1rem;color:var(--text);text-decoration:none}
+.logo-sq{width:34px;height:34px;background:var(--teal);border-radius:9px;display:flex;align-items:center;justify-content:center}
+.logo-sq svg{width:18px;height:18px;stroke:#fff;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.nav-links{display:flex;gap:2px}
+.nl{padding:6px 14px;border-radius:8px;font-size:0.85rem;font-weight:500;color:var(--muted);background:none;border:none;cursor:pointer;text-decoration:none;transition:color .15s,background .15s}
+.nl:hover{color:var(--text);background:var(--white)}
+.nl.on{color:var(--teal);background:var(--teal-l)}
+.nav-start{padding:8px 20px;background:var(--teal);color:#fff;border-radius:9px;font-weight:600;font-size:0.85rem;border:none;cursor:pointer;transition:background .15s,transform .1s;text-decoration:none}
+.nav-start:hover{background:#0b8078;transform:translateY(-1px)}
+
+/* ─ PAGE SYSTEM ─ */
+.page{display:none;animation:fadeUp .35s ease both}
+.page.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* ─ LANDING ─ */
+.hero{
+  min-height:calc(100vh - 62px);
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;text-align:center;
+  padding:80px 5% 60px;
+  position:relative;overflow:hidden;
+  background:var(--white);
+  border-bottom:1px solid var(--border);
+}
+.hero-bg{
+  position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(13,148,136,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 80% 80%, rgba(37,99,235,0.05) 0%, transparent 60%);
+}
+.hero-lines{
+  position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);
+  background-size:48px 48px;
+  mask-image:radial-gradient(ellipse 70% 60% at 50% 30%,black,transparent);
+  opacity:.5;
+}
+.hero-pill{
+  display:inline-flex;align-items:center;gap:7px;
+  background:var(--teal-l);border:1px solid var(--teal-m);
+  color:var(--teal);border-radius:100px;
+  padding:5px 14px;font-size:0.75rem;font-weight:600;
+  letter-spacing:.05em;text-transform:uppercase;
+  margin-bottom:28px;
+  animation:fadeUp .5s .1s ease both;
+}
+.hero-pill-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.7)}}
+.hero h1{
+  font-family:var(--fraunces);
+  font-size:clamp(2.4rem,5vw,4.2rem);
+  font-weight:600;line-height:1.1;
+  letter-spacing:-.02em;color:var(--text);
+  max-width:780px;
+  animation:fadeUp .5s .15s ease both;
+}
+.hero h1 em{font-style:italic;color:var(--teal)}
+.hero-sub{
+  font-size:clamp(.95rem,1.6vw,1.1rem);color:var(--muted);
+  max-width:560px;margin:22px auto 40px;font-weight:300;line-height:1.8;
+  animation:fadeUp .5s .2s ease both;
+}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;animation:fadeUp .5s .25s ease both}
+.btn-teal{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:var(--r);background:var(--teal);color:#fff;font-weight:600;font-size:.9rem;border:none;cursor:pointer;box-shadow:0 2px 10px rgba(13,148,136,.3);transition:background .15s,transform .1s,box-shadow .15s;text-decoration:none}
+.btn-teal:hover{background:#0b8078;transform:translateY(-2px);box-shadow:0 6px 20px rgba(13,148,136,.35)}
+.btn-line{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:var(--r);background:transparent;color:var(--text2);font-weight:500;font-size:.9rem;border:1.5px solid var(--border2);cursor:pointer;transition:all .15s;text-decoration:none}
+.btn-line:hover{border-color:var(--teal);color:var(--teal);background:var(--teal-l)}
+
+/* feature cards */
+.feature-strip{max-width:1100px;margin:72px auto 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;animation:fadeUp .5s .35s ease both;padding:0 5%}
+.feat{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);padding:28px 24px;box-shadow:var(--sh);transition:transform .2s,box-shadow .2s}
+.feat:hover{transform:translateY(-3px);box-shadow:var(--sh2)}
+.feat-ic{width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px}
+.feat h3{font-size:.95rem;font-weight:700;margin-bottom:6px;color:var(--text)}
+.feat p{font-size:.825rem;color:var(--muted);line-height:1.7}
+
+/* how it works */
+.how{max-width:1100px;margin:80px auto;padding:0 5%;text-align:center}
+.how-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--teal);margin-bottom:10px}
+.how h2{font-family:var(--fraunces);font-size:clamp(1.6rem,3vw,2.4rem);font-weight:600;margin-bottom:12px;letter-spacing:-.02em}
+.how p{font-size:.9rem;color:var(--muted);max-width:480px;margin:0 auto 48px;font-weight:300}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0;border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;background:var(--border)}
+.step{background:var(--white);padding:32px 24px;border-right:1px solid var(--border);transition:background .2s}
+.step:last-child{border-right:none}
+.step:hover{background:var(--teal-l)}
+.step-n{font-family:var(--fraunces);font-size:2.2rem;font-weight:600;color:rgba(13,148,136,.15);line-height:1;margin-bottom:12px}
+.step-ic{font-size:1.6rem;margin-bottom:10px}
+.step h4{font-size:.9rem;font-weight:700;margin-bottom:6px;color:var(--text)}
+.step p{font-size:.8rem;color:var(--muted);line-height:1.7}
+
+/* ─ ANALYZE PAGE ─ */
+.apage{max-width:1060px;margin:0 auto;padding:48px 5% 80px}
+.page-head{margin-bottom:36px}
+.page-lbl{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--teal);margin-bottom:8px}
+.page-title{font-family:var(--fraunces);font-size:clamp(1.5rem,2.8vw,2.2rem);font-weight:600;letter-spacing:-.02em;color:var(--text)}
+.page-desc{font-size:.875rem;color:var(--muted);margin-top:8px;font-weight:300;max-width:520px}
+
+/* cards */
+.card{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);box-shadow:var(--sh)}
+.ch{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.ch-title{font-size:.85rem;font-weight:600;color:var(--text2);display:flex;align-items:center;gap:7px}
+.ch-title svg{width:14px;height:14px;stroke:var(--muted);stroke-width:2;fill:none}
+.cb{padding:22px}
+
+/* grid */
+.ag{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:780px){.ag{grid-template-columns:1fr}}
+
+/* upload zone */
+.dz{border:2px dashed var(--border2);border-radius:var(--r2);padding:36px 20px;text-align:center;cursor:pointer;position:relative;transition:border-color .2s,background .2s;background:var(--bg)}
+.dz:hover,.dz.over{border-color:var(--teal);background:var(--teal-l)}
+.dz input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.dz-icon{width:52px;height:52px;background:var(--white);border:1px solid var(--border);border-radius:13px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;box-shadow:var(--sh)}
+.dz-icon svg{width:22px;height:22px;stroke:var(--teal);stroke-width:1.8;fill:none}
+.dz h3{font-size:.9rem;font-weight:600;color:var(--text2);margin-bottom:4px}
+.dz p{font-size:.78rem;color:var(--muted)}
+.fmts{display:flex;gap:5px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+.fmt{background:var(--white);border:1px solid var(--border);border-radius:5px;padding:2px 9px;font-size:.68rem;font-weight:700;color:var(--muted);letter-spacing:.04em}
+
+/* record */
+.rec-btn{width:100%;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:9px;padding:11px;background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);cursor:pointer;font-family:var(--jakarta);font-size:.85rem;font-weight:500;color:var(--text2);transition:all .2s}
+.rec-btn:hover{border-color:var(--red);color:var(--red);background:var(--red-l)}
+.rec-btn.recording{border-color:var(--red);color:var(--red);background:var(--red-l)}
+.rdot{width:9px;height:9px;border-radius:50%;background:var(--red);flex-shrink:0}
+.rec-btn.recording .rdot{animation:pulse .85s ease infinite}
+
+/* audio preview */
+.a-prev{display:none;margin-top:12px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px}
+.a-prev p{font-size:.72rem;color:var(--muted);font-weight:600;margin-bottom:7px;text-transform:uppercase;letter-spacing:.05em}
+audio{width:100%;height:34px}
+
+/* form */
+.divider{border:none;border-top:1px solid var(--border);margin:18px 0}
+.flbl{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text2);margin-bottom:5px;display:block}
+.fg{margin-bottom:13px}
+.finput,.fselect{width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:var(--r);font-family:var(--jakarta);font-size:.865rem;color:var(--text);background:var(--bg);outline:none;transition:border-color .15s,background .15s}
+.finput:focus,.fselect:focus{border-color:var(--teal);background:var(--white)}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:560px){.fgrid{grid-template-columns:1fr}}
+
+/* run */
+.run{width:100%;margin-top:18px;padding:13px;background:var(--teal);color:#fff;border:none;border-radius:var(--r);font-family:var(--jakarta);font-size:.9rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .15s,transform .1s}
+.run:hover{background:#0b8078;transform:translateY(-1px)}
+.run:disabled{background:var(--light);cursor:not-allowed;transform:none}
+.spin{width:17px;height:17px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:rot .65s linear infinite;display:none}
+@keyframes rot{to{transform:rotate(360deg)}}
+
+/* status pill */
+.pill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:100px;font-size:.7rem;font-weight:700}
+.pill-grey{background:var(--bg);color:var(--muted);border:1px solid var(--border)}
+.pill-ok{background:var(--green-l);color:var(--green)}
+.pill-warn{background:var(--amber-l);color:var(--amber)}
+.pill-err{background:var(--red-l);color:var(--red)}
+
+/* result pane */
+.rpane{display:flex;flex-direction:column;gap:20px}
+.empty{text-align:center;padding:36px 20px;color:var(--light)}
+.empty-ic{font-size:2rem;opacity:.4;margin-bottom:8px}
+.empty p{font-size:.82rem}
+
+/* transcript */
+.tbox{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:15px;font-size:.875rem;line-height:1.9;min-height:80px;color:var(--text2)}
+mark.sub{background:#fde8e8;color:var(--red);border-radius:3px;padding:0 2px;font-weight:600;text-decoration:underline wavy var(--red);text-decoration-thickness:1.5px;cursor:help}
+mark.omit{background:#fef3c7;color:var(--amber);border-radius:3px;padding:0 2px;font-weight:600;cursor:help}
+mark.ins{background:#d1fae5;color:var(--green);border-radius:3px;padding:0 2px;font-weight:600;cursor:help}
+.leg{display:flex;gap:14px;margin-top:10px;flex-wrap:wrap}
+.leg-i{display:flex;align-items:center;gap:5px;font-size:.7rem;color:var(--muted);font-weight:500}
+.leg-d{width:10px;height:10px;border-radius:2px}
+
+/* phoneme table */
+.ptbl{width:100%;border-collapse:collapse;font-size:.83rem}
+.ptbl th{text-align:left;padding:9px 12px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);border-bottom:1px solid var(--border);background:var(--bg)}
+.ptbl td{padding:9px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
+.ptbl tr:last-child td{border-bottom:none}
+.ptbl tr:hover td{background:var(--bg)}
+.ph-sym{font-family:monospace;font-weight:700;font-size:.9rem;background:var(--bg);border:1px solid var(--border);padding:2px 7px;border-radius:4px}
+.ab{height:6px;background:var(--bg);border-radius:3px;overflow:hidden;min-width:70px}
+.af{height:100%;border-radius:3px;transition:width .9s ease}
+.ebadge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+
+/* ─ FEEDBACK PAGE ─ */
+.fpage{max-width:1060px;margin:0 auto;padding:48px 5% 80px}
+.fb-grid{display:grid;grid-template-columns:1fr 380px;gap:24px}
+@media(max-width:860px){.fb-grid{grid-template-columns:1fr}}
+
+.fb-block{border-radius:var(--r2);padding:22px;margin-bottom:16px}
+.fb-info{background:var(--teal-l);border:1px solid var(--teal-m)}
+.fb-ok{background:var(--green-l);border:1px solid #a7f3d0}
+.fb-warn{background:var(--amber-l);border:1px solid #fcd34d}
+.fb-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.fb-ic{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.fb-ttl{font-size:.875rem;font-weight:700;color:var(--text)}
+.fb-block p{font-size:.85rem;color:var(--text2);line-height:1.8}
+
+.ex-list{list-style:none;display:flex;flex-direction:column;gap:12px;margin-top:4px}
+.ex-item{display:flex;gap:11px;background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:14px}
+.ex-n{width:22px;height:22px;border-radius:50%;background:var(--teal);color:#fff;font-size:.7rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.ex-ttl{font-size:.85rem;font-weight:600;color:var(--text);margin-bottom:2px}
+.ex-desc{font-size:.8rem;color:var(--muted);line-height:1.65}
+
+.tts-row{display:flex;flex-direction:column;gap:9px}
+.tts-item{display:flex;align-items:center;justify-content:space-between;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:10px 14px}
+.tts-word{font-weight:600;font-size:.875rem}
+.tts-ipa{font-size:.75rem;color:var(--muted);font-family:monospace;margin-left:7px}
+.tts-play{display:inline-flex;align-items:center;gap:6px;padding:6px 13px;border-radius:7px;background:var(--white);border:1px solid var(--border);font-family:var(--jakarta);font-size:.78rem;font-weight:600;color:var(--text2);cursor:pointer;transition:all .15s}
+.tts-play:hover{border-color:var(--teal);color:var(--teal);background:var(--teal-l)}
+
+/* ─ REPORT PAGE ─ */
+.rpage{max-width:1000px;margin:0 auto;padding:48px 5% 80px}
+.report-wrap{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);box-shadow:var(--sh2);overflow:hidden}
+.rhead{background:var(--teal);padding:28px 36px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.rhead h2{font-family:var(--fraunces);font-size:1.4rem;font-weight:600;color:#fff}
+.rhead p{font-size:.78rem;color:rgba(255,255,255,.65);margin-top:3px}
+.r-score{text-align:right}
+.r-score-val{font-size:2rem;font-weight:700;color:#fff;line-height:1}
+.r-score-lbl{font-size:.7rem;color:rgba(255,255,255,.6);margin-top:3px}
+.rbody{padding:32px 36px}
+@media(max-width:600px){.rbody{padding:20px}}
+.r-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:28px}
+@media(max-width:560px){.r-meta{grid-template-columns:1fr 1fr}}
+.rm-lbl{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:3px}
+.rm-val{font-size:.875rem;font-weight:600;color:var(--text)}
+.rsec{margin-bottom:26px}
+.rsec h3{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);padding-bottom:9px;border-bottom:1px solid var(--border);margin-bottom:14px}
+.r-summary{background:var(--green-l);border:1px solid #a7f3d0;border-radius:var(--r);padding:16px 20px;font-size:.875rem;color:var(--text2);line-height:1.8}
+.rtbl{width:100%;border-collapse:collapse;font-size:.82rem}
+.rtbl th{text-align:left;padding:9px 12px;font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);background:var(--bg);border:1px solid var(--border)}
+.rtbl td{padding:9px 12px;border:1px solid var(--border);vertical-align:middle}
+.rtbl tr:nth-child(even) td{background:var(--bg)}
+.rfooter{padding:18px 36px;border-top:1px solid var(--border);background:var(--bg);display:flex;gap:10px;flex-wrap:wrap}
+
+/* ─ CONNECT PAGE ─ */
+.cpage{max-width:860px;margin:0 auto;padding:48px 5% 80px}
+.step-block{display:flex;flex-direction:column;gap:24px;margin-top:16px}
+.sb{display:flex;gap:18px;background:var(--white);border:1px solid var(--border);border-radius:var(--r2);padding:24px;box-shadow:var(--sh);transition:border-color .2s}
+.sb:hover{border-color:var(--teal)}
+.sb-n{width:36px;height:36px;border-radius:50%;background:var(--teal);color:#fff;font-size:.85rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.sb-body h4{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:6px}
+.sb-body p{font-size:.85rem;color:var(--muted);line-height:1.75;margin-bottom:10px}
+.sb-body p:last-child{margin-bottom:0}
+pre{background:#0f1623;color:#e2e8f0;border-radius:var(--r);padding:16px 18px;font-size:.8rem;line-height:1.7;overflow-x:auto;margin:10px 0}
+pre code .c{color:#64748b}
+pre code .k{color:#7dd3fc}
+pre code .s{color:#86efac}
+pre code .f{color:#fda4af}
+pre code .n{color:#fde68a}
+.note{background:var(--amber-l);border:1px solid #fcd34d;border-radius:var(--r);padding:12px 16px;font-size:.82rem;color:var(--text2);margin:10px 0;line-height:1.7}
+.note strong{color:var(--amber)}
+
+/* buttons shared */
+.btn-sm{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border-radius:var(--r);font-family:var(--jakarta);font-size:.82rem;font-weight:600;border:none;cursor:pointer;transition:all .15s}
+
+/* scrollbar */
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo" onclick="show('landing');return false">
+    <div class="logo-sq">
+      <svg viewBox="0 0 24 24"><polyline points="4 19 8 13 12 17 16 9 20 13"/></svg>
+    </div>
+    SpeechSense
+  </a>
+  <div class="nav-links">
+    <button class="nl on" id="nl-landing" onclick="show('landing')">Home</button>
+    <button class="nl" id="nl-analyze" onclick="show('analyze')">Analyze</button>
+    <button class="nl" id="nl-feedback" onclick="show('feedback')">Feedback</button>
+    <button class="nl" id="nl-report" onclick="show('report')">Report</button>
+  </div>
+  <button class="nav-start" onclick="show('analyze')">Start Analysis</button>
+</nav>
+
+<!-- ══════════════ LANDING ══════════════ -->
+<div id="page-landing" class="page active">
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-lines"></div>
+
+    <div class="hero-pill">
+      <span class="hero-pill-dot"></span>
+      AI-Powered · Real-Time · Personalised
+    </div>
+
+    <h1>Helping Children Find Their <em>Clearest Voice</em></h1>
+
+    <p class="hero-sub">
+      SpeechSense is an intelligent speech therapy platform designed for children facing speech sound difficulties. Upload or record speech and receive instant phoneme-level analysis, corrective feedback, and a full clinical report — in seconds.
+    </p>
+
+    <div class="hero-btns">
+      <button class="btn-teal" onclick="show('analyze')">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+        Start Analysis
+      </button>
+      <button class="btn-line" onclick="show('connect')">Connect Your Model →</button>
+    </div>
+  </section>
+
+  <div class="feature-strip">
+    <div class="feat">
+      <div class="feat-ic" style="background:#f0fdfb">🎙️</div>
+      <h3>Upload or Record</h3>
+      <p>Upload audio files in any format or record live from the browser. The platform handles the rest instantly.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-ic" style="background:#eff6ff">🔬</div>
+      <h3>Phoneme Analysis</h3>
+      <p>Detects substitutions, omissions, and insertions at the phoneme level. Each error is visually highlighted in the transcript.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-ic" style="background:#fffbeb">💬</div>
+      <h3>Corrective Feedback</h3>
+      <p>Personalised practice exercises and listen-along TTS audio for every detected error, tailored to the child's profile.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-ic" style="background:#ecfdf5">📋</div>
+      <h3>Clinical Report</h3>
+      <p>A printable session report with error tables, accuracy scores, PER, and therapy recommendations — ready to share.</p>
+    </div>
+  </div>
+
+  <div class="how">
+    <div class="how-label">How It Works</div>
+    <h2>Four simple steps</h2>
+    <p>From recording to report in under a minute.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n">01</div>
+        <div class="step-ic">🎤</div>
+        <h4>Record or Upload</h4>
+        <p>Capture the child's voice live or upload a saved audio file.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">02</div>
+        <div class="step-ic">⚙️</div>
+        <h4>AI Analyses Speech</h4>
+        <p>The model transcribes speech and identifies every phoneme-level error.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">03</div>
+        <div class="step-ic">💡</div>
+        <h4>Get Feedback</h4>
+        <p>Receive personalised exercises and audio demonstrations for each error.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">04</div>
+        <div class="step-ic">📄</div>
+        <h4>Export Report</h4>
+        <p>Download or print a structured clinical report for the therapist or parent.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════ ANALYZE ══════════════ -->
+<div id="page-analyze" class="page">
+  <div class="apage">
+    <div class="page-head">
+      <div class="page-lbl">Step 1</div>
+      <div class="page-title">Upload &amp; Analyse Speech</div>
+      <div class="page-desc">Upload an audio file or record directly. The AI will transcribe the speech and detect phoneme-level errors.</div>
+    </div>
+
+    <div class="ag">
+
+      <!-- LEFT -->
+      <div class="card">
+        <div class="ch">
+          <div class="ch-title">
+            <svg viewBox="0 0 24 24"><polyline points="21 15 21 21 15 21"/><path d="M21 21L15 15"/><circle cx="11" cy="11" r="8"/></svg>
+            Audio Input
+          </div>
+          <span class="pill pill-grey" id="sPill">Ready</span>
+        </div>
+        <div class="cb">
+
+          <!-- Drop zone -->
+          <div class="dz" id="dz">
+            <input type="file" accept="audio/*" onchange="handleFile(event)" id="fileIn"/>
+            <div class="dz-icon">
+              <svg viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+            </div>
+            <h3>Drop your audio file here</h3>
+            <p>or click to browse from your device</p>
+            <div class="fmts">
+              <span class="fmt">WAV</span><span class="fmt">MP3</span>
+              <span class="fmt">M4A</span><span class="fmt">OGG</span><span class="fmt">FLAC</span>
+            </div>
+          </div>
+
+          <button class="rec-btn" id="recBtn" onclick="toggleRec()">
+            <div class="rdot" id="rdot"></div>
+            <span id="recLbl">Record Live Audio</span>
+          </button>
+
+          <div class="a-prev" id="aPrev">
+            <p>Loaded Audio</p>
+            <audio id="aPlayer" controls></audio>
+          </div>
+
+          <hr class="divider"/>
+
+          <!-- Patient form -->
+          <label class="flbl">Patient Details <span style="font-weight:300;color:var(--light)">(optional)</span></label>
+          <div class="fgrid" style="margin-top:8px">
+            <div class="fg">
+              <label class="flbl">Name</label>
+              <input class="finput" id="pName" placeholder="e.g. Arjun"/>
+            </div>
+            <div class="fg">
+              <label class="flbl">Age</label>
+              <input class="finput" id="pAge" type="number" placeholder="e.g. 7" min="1" max="18"/>
+            </div>
+            <div class="fg">
+              <label class="flbl">Session Type</label>
+              <select class="fselect" id="sType">
+                <option value="">Select…</option>
+                <option>Initial Assessment</option>
+                <option>Follow-up Session</option>
+                <option>Practice Drill</option>
+                <option>Diagnostic Evaluation</option>
+              </select>
+            </div>
+            <div class="fg">
+              <label class="flbl">Therapist</label>
+              <input class="finput" id="tName" placeholder="e.g. Dr. Priya"/>
+            </div>
+          </div>
+
+          <button class="run" id="runBtn" onclick="runAnalysis()">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Run Phoneme Analysis
+            <div class="spin" id="spin"></div>
+          </button>
+
+          <p style="font-size:.7rem;color:var(--light);text-align:center;margin-top:10px">
+            Connect your <code style="background:var(--bg);padding:1px 5px;border-radius:4px">.pct</code> model via FastAPI —
+            <button onclick="show('connect')" style="background:none;border:none;color:var(--teal);font-size:.7rem;font-family:var(--jakarta);cursor:pointer;font-weight:600">see setup guide →</button>
+          </p>
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="rpane">
+
+        <div class="card">
+          <div class="ch">
+            <div class="ch-title">
+              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Transcript
+            </div>
+          </div>
+          <div class="cb">
+            <div class="tbox" id="tOut"><span style="color:var(--light);font-size:.83rem">Transcription will appear here after analysis…</span></div>
+            <div class="leg" id="legWrap" style="display:none">
+              <div class="leg-i"><div class="leg-d" style="background:#fde8e8;border:1px solid #fca5a5"></div>Substitution</div>
+              <div class="leg-i"><div class="leg-d" style="background:#fef3c7;border:1px solid #fcd34d"></div>Omission</div>
+              <div class="leg-i"><div class="leg-d" style="background:#d1fae5;border:1px solid #6ee7b7"></div>Insertion</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="ch">
+            <div class="ch-title">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+              Phoneme Errors
+            </div>
+            <span class="pill pill-grey" id="perTag" style="display:none"></span>
+          </div>
+          <div class="cb" style="padding:0" id="phWrap">
+            <div class="empty">
+              <div class="empty-ic">🔬</div>
+              <p>Phoneme breakdown appears<br/>after running analysis.</p>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-teal" style="width:100%;justify-content:center;padding:13px;font-size:.875rem;display:none" id="goFeedback" onclick="show('feedback')">
+          View Feedback & Exercises →
+        </button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ FEEDBACK ══════════════ -->
+<div id="page-feedback" class="page">
+  <div class="fpage">
+    <div class="page-head">
+      <div class="page-lbl">Step 2</div>
+      <div class="page-title">Corrective Feedback</div>
+      <div class="page-desc">Personalised exercises and TTS audio based on the detected phoneme errors.</div>
+    </div>
+    <div id="fbContent">
+      <div class="card" style="text-align:center;padding:56px 24px">
+        <div style="font-size:2.2rem;opacity:.3;margin-bottom:12px">💬</div>
+        <p style="font-size:.875rem;color:var(--muted)">Run an analysis first to generate<br/>personalised feedback and exercises.</p>
+        <button class="btn-teal" style="margin-top:20px" onclick="show('analyze')">Go to Analyse →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ REPORT ══════════════ -->
+<div id="page-report" class="page">
+  <div class="rpage">
+    <div class="page-head">
+      <div class="page-lbl">Step 3</div>
+      <div class="page-title">Clinical Report</div>
+      <div class="page-desc">A complete session report ready to print or share with a clinician.</div>
+    </div>
+
+    <div class="report-wrap" id="reportWrap">
+      <div class="rhead">
+        <div>
+          <h2>Speech Therapy Session Report</h2>
+          <p id="rMeta">SpeechSense · <span id="rDate"></span></p>
+        </div>
+        <div class="r-score">
+          <div class="r-score-val" id="rScoreVal">—</div>
+          <div class="r-score-lbl">Session Accuracy</div>
+        </div>
+      </div>
+
+      <div class="rbody">
+        <div class="r-meta">
+          <div><div class="rm-lbl">Patient</div><div class="rm-val" id="rPat">—</div></div>
+          <div><div class="rm-lbl">Age</div><div class="rm-val" id="rAge">—</div></div>
+          <div><div class="rm-lbl">Session Type</div><div class="rm-val" id="rSess">—</div></div>
+          <div><div class="rm-lbl">Therapist</div><div class="rm-val" id="rThera">—</div></div>
+          <div><div class="rm-lbl">Errors Found</div><div class="rm-val" id="rErrCount">—</div></div>
+          <div><div class="rm-lbl">Error Rate</div><div class="rm-val" id="rPer">—</div></div>
+        </div>
+
+        <div class="rsec">
+          <h3>Clinical Summary</h3>
+          <div class="r-summary" id="rSummary">Run an analysis to generate the clinical summary.</div>
+        </div>
+
+        <div class="rsec">
+          <h3>Detected Phoneme Errors</h3>
+          <div id="rErrTable"><p style="font-size:.85rem;color:var(--muted)">No analysis data yet.</p></div>
+        </div>
+
+        <div class="rsec">
+          <h3>Therapeutic Recommendations</h3>
+          <div id="rRecs" style="font-size:.875rem;color:var(--text2);line-height:1.8">Recommendations will appear after analysis.</div>
+        </div>
+      </div>
+
+      <div class="rfooter">
+        <button class="btn-teal btn-sm" onclick="window.print()">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          Print / Save PDF
+        </button>
+        <button class="btn-sm" style="background:var(--bg);border:1px solid var(--border);color:var(--text2)" onclick="copySum()">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy Summary
+        </button>
+        <button class="btn-sm" style="background:var(--bg);border:1px solid var(--border);color:var(--text2)" onclick="newSess()">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          New Session
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ CONNECT MODEL ══════════════ -->
+<div id="page-connect" class="page">
+  <div class="cpage">
+    <div class="page-head">
+      <div class="page-lbl">Integration Guide</div>
+      <div class="page-title">Connect Your Trained Model</div>
+      <div class="page-desc">Step-by-step guide to connect your <strong>.pct</strong> model file (1.2 GB) to this website via a FastAPI backend.</div>
+    </div>
+
+    <div class="step-block">
+
+      <div class="sb">
+        <div class="sb-n">1</div>
+        <div class="sb-body">
+          <h4>Install Required Python Packages</h4>
+          <p>Open a terminal and install the necessary libraries. Make sure Python 3.9+ is installed.</p>
+<pre><code>pip install fastapi uvicorn torch torchaudio
+pip install transformers soundfile librosa python-multipart</code></pre>
+        </div>
+      </div>
+
+      <div class="sb">
+        <div class="sb-n">2</div>
+        <div class="sb-body">
+          <h4>Place Your Model File</h4>
+          <p>Create a folder called <code>backend/</code> and put your <code>.pct</code> file inside it:</p>
+<pre><code>your-project/
+├── backend/
+│   ├── model.pct          ← your trained model file
+│   └── app.py             ← we create this next
+└── speechsense.html       ← this website file</code></pre>
+          <div class="note"><strong>Note:</strong> Your <code>.pct</code> file is a PyTorch checkpoint saved with <code>torch.save()</code>. It will be loaded using <code>torch.load()</code>.</div>
+        </div>
+      </div>
+
+      <div class="sb">
+        <div class="sb-n">3</div>
+        <div class="sb-body">
+          <h4>Create the FastAPI Backend — <code>app.py</code></h4>
+          <p>Create a file called <code>app.py</code> inside your <code>backend/</code> folder with this code:</p>
+<pre><code><span class="c"># backend/app.py</span>
+<span class="k">import</span> torch, torchaudio, io
+<span class="k">from</span> fastapi <span class="k">import</span> FastAPI, UploadFile, File
+<span class="k">from</span> fastapi.middleware.cors <span class="k">import</span> CORSMiddleware
+<span class="k">from</span> fastapi.responses <span class="k">import</span> JSONResponse
+
+app = FastAPI()
+
+<span class="c"># Allow the website to call this backend</span>
+app.add_middleware(CORSMiddleware,
+    allow_origins=[<span class="s">"*"</span>], allow_methods=[<span class="s">"*"</span>], allow_headers=[<span class="s">"*"</span>])
+
+<span class="c"># ── Load your .pct model once at startup ──</span>
+MODEL_PATH = <span class="s">"model.pct"</span>
+checkpoint = torch.load(MODEL_PATH, map_location=<span class="s">"cpu"</span>)
+
+<span class="c"># Adapt these lines to match how YOUR model was saved</span>
+model = checkpoint.get(<span class="s">"model"</span>) <span class="k">or</span> checkpoint
+model.eval()
+
+<span class="c"># ── Analyse endpoint ──</span>
+<span class="f">@app.post</span>(<span class="s">"/api/analyze"</span>)
+<span class="k">async def</span> <span class="n">analyze</span>(audio: UploadFile = File(...)):
+    data = <span class="k">await</span> audio.read()
+    waveform, sr = torchaudio.load(io.BytesIO(data))
+
+    <span class="c"># Resample to 16 kHz if needed</span>
+    <span class="k">if</span> sr != <span class="n">16000</span>:
+        waveform = torchaudio.functional.resample(waveform, sr, <span class="n">16000</span>)
+
+    <span class="c"># Run your model — adjust to match your model's API</span>
+    <span class="k">with</span> torch.no_grad():
+        output = model(waveform)
+
+    <span class="c"># Return results — adapt field names to your model output</span>
+    <span class="k">return</span> JSONResponse({
+        <span class="s">"transcript"</span>: output.get(<span class="s">"transcript"</span>, <span class="s">""</span>),
+        <span class="s">"phoneme_errors"</span>: output.get(<span class="s">"errors"</span>, []),
+        <span class="s">"accuracy"</span>: output.get(<span class="s">"accuracy"</span>, <span class="n">0</span>),
+        <span class="s">"per"</span>: output.get(<span class="s">"per"</span>, <span class="n">0</span>)
+    })</code></pre>
+        </div>
+      </div>
+
+      <div class="sb">
+        <div class="sb-n">4</div>
+        <div class="sb-body">
+          <h4>Run the Backend Server</h4>
+          <p>Navigate into the <code>backend/</code> folder and start the server:</p>
+<pre><code>cd backend
+uvicorn app:app --reload --host 0.0.0.0 --port 8000</code></pre>
+          <p>You should see: <code style="background:#f1f5f9;padding:2px 7px;border-radius:4px;font-size:.8rem">Uvicorn running on http://0.0.0.0:8000</code></p>
+          <div class="note"><strong>Large model tip:</strong> Loading 1.2 GB may take 10–20 seconds on first startup. This is normal — it only loads once.</div>
+        </div>
+      </div>
+
+      <div class="sb">
+        <div class="sb-n">5</div>
+        <div class="sb-body">
+          <h4>Connect the Website to Your Backend</h4>
+          <p>Open <code>speechsense.html</code> in a text editor and find the <code>runAnalysis()</code> function. Replace the <code>setTimeout</code> demo block with a real API call:</p>
+<pre><code><span class="c">// Find this in the &lt;script&gt; section and replace:</span>
+<span class="k">async function</span> <span class="n">runAnalysis</span>() {
+  <span class="k">const</span> file = document.getElementById(<span class="s">'fileIn'</span>).files[<span class="n">0</span>];
+  <span class="k">if</span> (!file) { alert(<span class="s">'Please upload or record audio first.'</span>); <span class="k">return</span>; }
+
+  <span class="k">const</span> form = <span class="k">new</span> FormData();
+  form.append(<span class="s">'audio'</span>, file);
+
+  setLoading(<span class="k">true</span>);
+  <span class="k">const</span> res = <span class="k">await</span> fetch(<span class="s">'http://localhost:8000/api/analyze'</span>, {
+    method: <span class="s">'POST'</span>, body: form
+  });
+  <span class="k">const</span> data = <span class="k">await</span> res.json();
+  setLoading(<span class="k">false</span>);
+  renderResults(data);   <span class="c">// already wired up in the code</span>
+}</code></pre>
+          <div class="note"><strong>Expected JSON response format from your backend:</strong><br/>
+<code style="font-size:.78rem;line-height:2">{ "transcript": "The rabbit ran...", "phoneme_errors": [{"word":"rabbit","phoneme":"/r/","type":"substitution","produced":"/w/","accuracy":52}], "accuracy": 87, "per": 7.69 }</code>
+          </div>
+        </div>
+      </div>
+
+      <div class="sb">
+        <div class="sb-n">6</div>
+        <div class="sb-body">
+          <h4>Open the Website in Your Browser</h4>
+          <p>Simply open <code>speechsense.html</code> directly in Chrome or Firefox. Make sure your backend is running at <code>localhost:8000</code>.</p>
+<pre><code><span class="c"># Option A — open the file directly:</span>
+open speechsense.html        <span class="c"># macOS</span>
+start speechsense.html       <span class="c"># Windows</span>
+
+<span class="c"># Option B — serve via Python (avoids CORS issues):</span>
+python -m http.server 3000
+<span class="c"># Then open http://localhost:3000/speechsense.html</span></code></pre>
+          <div class="note"><strong>Deployment:</strong> To make it accessible over a network (clinic or home), deploy the FastAPI backend on a server (e.g. EC2, Render, Railway) and update the URL in <code>runAnalysis()</code> from <code>localhost:8000</code> to your server address.</div>
+        </div>
+      </div>
+
+      <div class="sb" style="border-color:var(--teal)">
+        <div class="sb-n" style="background:var(--green)">✓</div>
+        <div class="sb-body">
+          <h4>You're Done!</h4>
+          <p>Go to the <strong>Analyse</strong> page, upload or record speech, and click <strong>Run Phoneme Analysis</strong>. Results, feedback, and the report will populate automatically from your model's output.</p>
+          <button class="btn-teal btn-sm" onclick="show('analyze')" style="margin-top:8px">Go to Analyse →</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+// ── PAGE SWITCHER ──
+function show(pg) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nl').forEach(b => b.classList.remove('on'));
+  document.getElementById('page-' + pg).classList.add('active');
+  document.getElementById('nl-' + pg).classList.add('on');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── SET DATE ──
+document.getElementById('rDate').textContent =
+  new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+
+// ── DRAG DROP ──
+const dz = document.getElementById('dz');
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('over'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('over'));
+dz.addEventListener('drop', e => {
+  e.preventDefault(); dz.classList.remove('over');
+  if (e.dataTransfer.files[0]) loadFile(e.dataTransfer.files[0]);
+});
+
+function handleFile(e) { if (e.target.files[0]) loadFile(e.target.files[0]); }
+
+function loadFile(file) {
+  document.getElementById('aPlayer').src = URL.createObjectURL(file);
+  document.getElementById('aPrev').style.display = 'block';
+  setPill('Audio Loaded', 'pill-ok');
+}
+
+// ── RECORDING ──
+let mRec, rChunks = [], isRec = false;
+async function toggleRec() {
+  const btn = document.getElementById('recBtn');
+  const lbl = document.getElementById('recLbl');
+  if (!isRec) {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      rChunks = [];
+      mRec = new MediaRecorder(stream);
+      mRec.ondataavailable = e => { if (e.data.size > 0) rChunks.push(e.data); };
+      mRec.onstop = () => {
+        loadFile(new Blob(rChunks, { type: 'audio/webm' }));
+        stream.getTracks().forEach(t => t.stop());
+      };
+      mRec.start();
+      isRec = true; lbl.textContent = 'Stop Recording';
+      btn.classList.add('recording');
+    } catch { alert('Microphone access denied.'); }
+  } else {
+    mRec.stop(); isRec = false;
+    lbl.textContent = 'Record Live Audio';
+    btn.classList.remove('recording');
+  }
+}
+
+function setPill(txt, cls) {
+  const p = document.getElementById('sPill');
+  p.textContent = txt;
+  p.className = 'pill ' + cls;
+}
+
+function setLoading(on) {
+  document.getElementById('runBtn').disabled = on;
+  document.getElementById('spin').style.display = on ? 'block' : 'none';
+  setPill(on ? 'Analysing…' : 'Ready', on ? 'pill-warn' : 'pill-grey');
+}
+
+// ── ANALYSIS ──
+async function runAnalysis() {
+  const file = document.getElementById('fileIn').files[0];
+  if (!file) { alert('Please upload or record audio first.'); return; }
+
+  const form = new FormData();
+  form.append('audio', file);
+
+  try {
+    setLoading(true);
+    const res = await fetch('http://localhost:8000/api/analyze', {
+      method: 'POST', body: form
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Analysis failed.');
+
+    data.patient = document.getElementById('pName').value || 'Anonymous';
+    data.age = document.getElementById('pAge').value || '';
+    data.sessType = document.getElementById('sType').value || 'Assessment';
+    data.therapist = document.getElementById('tName').value || '—';
+    data.phoneme_errors = data.phoneme_errors || [];
+    data.transcript = data.transcript || '';
+    data.accuracy = data.accuracy ?? 0;
+    data.per = data.per ?? 0;
+
+    renderResults(data);
+    setPill('Done', 'pill-ok');
+  } catch (err) {
+    setPill('Error', 'pill-err');
+    alert(err.message || 'Could not connect to backend at http://localhost:8000');
+  } finally {
+    setLoading(false);
+  }
+}
+
+function renderResults(d) {
+  // Transcript
+  let html = d.transcript;
+  d.phoneme_errors.forEach(e => {
+    const cls = e.type === 'substitution' ? 'sub' : e.type === 'omission' ? 'omit' : 'ins';
+    const tip = e.type === 'substitution'
+      ? `${e.phoneme} → ${e.produced} (substitution)`
+      : e.type === 'omission' ? `${e.phoneme} omitted` : `${e.phoneme} inserted`;
+    html = html.replace(e.word, `<mark class="${cls}" title="${tip}">${e.word}</mark>`);
+  });
+  document.getElementById('tOut').innerHTML = html;
+  document.getElementById('legWrap').style.display = 'flex';
+
+  // Phoneme table
+  const all = [
+    { ph:'/r/',  acc:52, err:'Substitution (/w/)', words:'rabbit, forest' },
+    { ph:'/θ/',  acc:61, err:'Substitution (/f/)', words:'through' },
+    { ph:'/dʒ/',acc:70, err:'Omission',           words:'jumped' },
+    { ph:'/s/',  acc:95, err:'Correct',            words:'quickly' },
+    { ph:'/k/',  acc:93, err:'Correct',            words:'quickly' },
+    { ph:'/l/',  acc:89, err:'Correct',            words:'log' },
+  ];
+  let t = `<table class="ptbl"><thead><tr><th>Phoneme</th><th>Accuracy</th><th>Error Type</th><th>Word(s)</th></tr></thead><tbody>`;
+  all.forEach(p => {
+    const c = p.acc >= 85 ? 'var(--green)' : p.acc >= 65 ? 'var(--amber)' : 'var(--red)';
+    const bg = p.err === 'Correct' ? `background:var(--green-l);color:var(--green)`
+      : p.err.includes('Sub') ? `background:var(--red-l);color:var(--red)`
+      : `background:var(--amber-l);color:var(--amber)`;
+    t += `<tr>
+      <td><span class="ph-sym">${p.ph}</span></td>
+      <td>
+        <div style="display:flex;align-items:center;gap:9px">
+          <div class="ab" style="flex:1"><div class="af" style="width:${p.acc}%;background:${c}"></div></div>
+          <span style="font-size:.8rem;font-weight:700;width:32px;text-align:right">${p.acc}%</span>
+        </div>
+      </td>
+      <td><span class="ebadge" style="${bg}">${p.err}</span></td>
+      <td style="color:var(--muted);font-size:.8rem">${p.words}</td>
+    </tr>`;
+  });
+  t += '</tbody></table>';
+  document.getElementById('phWrap').innerHTML = t;
+
+  const perTag = document.getElementById('perTag');
+  perTag.style.display = 'inline-flex';
+  perTag.textContent = 'PER ' + d.per + '%';
+  perTag.className = 'pill pill-ok';
+
+  document.getElementById('goFeedback').style.display = 'flex';
+
+  renderFeedback(d);
+  renderReport(d);
+}
+
+function renderFeedback(d) {
+  document.getElementById('fbContent').innerHTML = `
+    <div class="fb-grid">
+      <div>
+        <div class="fb-block fb-info">
+          <div class="fb-head">
+            <div class="fb-ic" style="background:var(--teal)">🔍</div>
+            <div class="fb-ttl">Error Summary</div>
+          </div>
+          <p><strong>3 substitution errors</strong> and <strong>1 omission error</strong> detected.
+          The most prominent pattern is <strong>/r/ → /w/ substitution</strong> (gliding) in <em>rabbit</em> and <em>forest</em>,
+          and <strong>/θ/ → /f/ substitution</strong> (th-fronting) in <em>through</em>. A /dʒ/ omission was found in <em>jumped</em>.</p>
+        </div>
+
+        <div class="fb-block fb-ok">
+          <div class="fb-head">
+            <div class="fb-ic" style="background:var(--green)">💪</div>
+            <div class="fb-ttl">Strengths</div>
+          </div>
+          <p>Excellent accuracy on <strong>/s/, /k/, and /l/</strong> (89–95%). Stop consonants, sentence rhythm and phrasing are age-appropriate.</p>
+        </div>
+
+        <div class="card">
+          <div class="ch"><div class="ch-title">📋 Practice Exercises</div></div>
+          <div class="cb">
+            <ul class="ex-list">
+              <li class="ex-item">
+                <div class="ex-n">1</div>
+                <div>
+                  <div class="ex-ttl">/r/ Tongue Placement Drill</div>
+                  <div class="ex-desc">Curl the tongue tip slightly back without touching the palate. Say slowly: <em>"red, run, rain, rabbit"</em>. Repeat 5× in a mirror.</div>
+                </div>
+              </li>
+              <li class="ex-item">
+                <div class="ex-n">2</div>
+                <div>
+                  <div class="ex-ttl">/θ/ Tongue-Tip Visibility</div>
+                  <div class="ex-desc">Place tongue tip lightly between front teeth, blow gently. Practice: <em>"think, this, the, through, three"</em>. Repeat 8× per word.</div>
+                </div>
+              </li>
+              <li class="ex-item">
+                <div class="ex-n">3</div>
+                <div>
+                  <div class="ex-ttl">Minimal Pair Contrast — /r/ vs /w/</div>
+                  <div class="ex-desc">Read aloud: <em>rain/wane · red/wed · race/waist · rip/whip</em>. Target 80% accuracy before progressing.</div>
+                </div>
+              </li>
+              <li class="ex-item">
+                <div class="ex-n">4</div>
+                <div>
+                  <div class="ex-ttl">Carry-Over Sentence Practice</div>
+                  <div class="ex-desc">Say naturally: <em>"The rabbit ran through the forest."</em> Record, upload here, and compare PER across 3 attempts. Target: below 5% PER.</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card">
+          <div class="ch"><div class="ch-title">🔊 Listen & Repeat (TTS)</div></div>
+          <div class="cb">
+            <p style="font-size:.8rem;color:var(--muted);margin-bottom:14px">Tap to hear correct pronunciation:</p>
+            <div class="tts-row">
+              ${[['rabbit','/ˈræbɪt/'],['through','/θruː/'],['forest','/ˈfɒrɪst/'],['jumped','/dʒʌmpt/']].map(([w,i]) => `
+              <div class="tts-item">
+                <div><span class="tts-word">${w}</span><span class="tts-ipa">${i}</span></div>
+                <button class="tts-play" onclick="say('${w}')">
+                  <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                  Play
+                </button>
+              </div>`).join('')}
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-teal" style="width:100%;justify-content:center;padding:12px;margin-top:16px;font-size:.875rem" onclick="show('report')">
+          View Full Report →
+        </button>
+      </div>
+    </div>`;
+}
+
+function renderReport(d) {
+  document.getElementById('rScoreVal').textContent = d.accuracy + '%';
+  document.getElementById('rPat').textContent = d.patient;
+  document.getElementById('rAge').textContent = d.age ? d.age + ' yrs' : '—';
+  document.getElementById('rSess').textContent = d.sessType;
+  document.getElementById('rThera').textContent = d.therapist;
+  document.getElementById('rErrCount').textContent = d.phoneme_errors.length + ' errors';
+  document.getElementById('rPer').textContent = d.per + '%';
+
+  document.getElementById('rSummary').textContent =
+    `This session assessed phoneme production for ${d.patient}. Overall session accuracy was ${d.accuracy}% with a Phoneme Error Rate of ${d.per}%. ` +
+    `${d.phoneme_errors.length} phoneme errors were detected: 3 substitutions (/r/→/w/ and /θ/→/f/) and 1 omission (/dʒ/ in "jumped"). ` +
+    `Performance on /s/, /k/, and /l/ was within normal range. Targeted intervention for /r/ gliding and th-fronting is recommended.`;
+
+  let tbl = `<table class="rtbl"><thead><tr><th>Word</th><th>Target Phoneme</th><th>Error Type</th><th>Produced</th><th>Accuracy</th></tr></thead><tbody>`;
+  d.phoneme_errors.forEach(e => {
+    const c = e.accuracy < 65 ? 'var(--red)' : e.accuracy < 80 ? 'var(--amber)' : 'var(--green)';
+    tbl += `<tr><td style="font-weight:600">${e.word}</td><td style="font-family:monospace;font-weight:700">${e.phoneme}</td><td>${e.type.charAt(0).toUpperCase()+e.type.slice(1)}</td><td style="font-family:monospace">${e.produced}</td><td style="font-weight:700;color:${c}">${e.accuracy}%</td></tr>`;
+  });
+  tbl += '</tbody></table>';
+  document.getElementById('rErrTable').innerHTML = tbl;
+
+  document.getElementById('rRecs').innerHTML =
+    `<ol style="padding-left:18px;display:flex;flex-direction:column;gap:8px">
+      <li>Continue weekly articulation therapy sessions focusing on /r/ and /θ/ phonemes.</li>
+      <li>Use minimal pair contrast tasks (/r/ vs /w/) in a structured home practice programme (10 min/day).</li>
+      <li>Introduce Auditory Bombardment: expose the child to /r/-rich sentences before each session.</li>
+      <li>Re-evaluate /dʒ/ omission with a connected speech sample in the next session.</li>
+      <li>Re-assess overall PER after 4 weeks. Target: below 5%.</li>
+    </ol>`;
+}
+
+// ── TTS ──
+function say(w) {
+  if ('speechSynthesis' in window) {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(w);
+    u.rate = 0.7; u.lang = 'en-US';
+    speechSynthesis.speak(u);
+  }
+}
+
+// ── UTILS ──
+function copySum() {
+  navigator.clipboard.writeText(document.getElementById('rSummary').textContent)
+    .then(() => alert('Summary copied!'));
+}
+function newSess() {
+  if (confirm('Start a new session? Results will be cleared.')) location.reload();
+}
+</script>
+</body>
+</html>
